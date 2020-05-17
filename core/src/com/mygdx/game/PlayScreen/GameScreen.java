@@ -2,7 +2,6 @@ package com.mygdx.game.PlayScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -15,6 +14,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MagickBullets.Bullet;
@@ -39,6 +41,12 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     private PlayerAdv player;
 
+    private TextureAtlas textureAtlas;
+    private Skin buttonsSkin;
+    private ImageButton.ImageButtonStyle imageButtonStyle;
+    private ImageButton imageButton;
+    private Stage stage;
+
     private ArrayList<Bullet> bullets;
     private ArrayList<Bullet> bulletsToRemove;
 
@@ -48,12 +56,26 @@ public class GameScreen implements Screen {
         batch = new SpriteBatch();
         batch.disableBlending();
 
+
         bullets = new ArrayList<Bullet>();
         bulletsToRemove = new ArrayList<Bullet>();
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(Main.VIEWPORT_WIDTH / Main.PIXELS_PER_METRE, Main.VIEWPORT_HEIGHT / Main.PIXELS_PER_METRE, camera);
         vector3 = new Vector3();
+
+        stage = new Stage(viewport, batch);
+
+        textureAtlas = new TextureAtlas("buttonLR.atlas");
+        buttonsSkin = new Skin(textureAtlas);
+        imageButtonStyle = new ImageButton.ImageButtonStyle();
+        imageButtonStyle.up = buttonsSkin.getDrawable("buttonleft");
+        imageButtonStyle.down = buttonsSkin.getDrawable("buttonright");
+        imageButton = new ImageButton(imageButtonStyle);
+        imageButton.setSize(100 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
+        imageButton.setPosition(10, 10);
+        stage.addActor(imageButton);
+
         /*
         Подгрузка карт
          */
@@ -139,7 +161,7 @@ public class GameScreen implements Screen {
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //            System.out.println("ScreenX = " + viewport.getScreenX() + "Vector3 = " + vector3.x + "  GdxInput = " + Gdx.input.getX());
-            if (Gdx.graphics.getHeight() / 2f * 0.5f > vector3.y  && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
+            if (Gdx.graphics.getHeight() / 2f > vector3.y  && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
             if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
             if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
@@ -154,6 +176,8 @@ public class GameScreen implements Screen {
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
 //        b2dr.render(world, camera.combined);
+
+        stage.draw();
 
         batch.begin();
             for (Bullet bullet : bullets){
@@ -191,5 +215,6 @@ public class GameScreen implements Screen {
         world.dispose();
         batch.dispose();
         b2dr.dispose();
+        stage.dispose();
     }
 }
