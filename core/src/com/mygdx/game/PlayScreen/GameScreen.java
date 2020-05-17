@@ -2,6 +2,7 @@ package com.mygdx.game.PlayScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,37 +12,48 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.MagickBullets.Bullet;
 import com.mygdx.game.Main;
 import com.mygdx.game.Player.PlayerAdv;
 import com.mygdx.game.Utils.TileMapObjects;
 
+import java.util.ArrayList;
+
 
 public class GameScreen implements Screen {
 
+    public Main main;
     private SpriteBatch batch;
     private TextureAtlas atlas;
     private Viewport viewport;
     private OrthographicCamera camera;
 
     private OrthogonalTiledMapRenderer renderer;
-
+    private Vector3 vector3;
     private World world;
     private Box2DDebugRenderer b2dr;
     private PlayerAdv player;
 
+    private ArrayList<Bullet> bullets;
+    private ArrayList<Bullet> bulletsToRemove;
+
     public GameScreen(Main main){
-        atlas = new TextureAtlas("Mario_and_Enemies.pack");
+        this.main = main;
+        atlas = new TextureAtlas("Mario.pack");
         batch = new SpriteBatch();
         batch.disableBlending();
 
+        bullets = new ArrayList<Bullet>();
+        bulletsToRemove = new ArrayList<Bullet>();
+
         camera = new OrthographicCamera();
         viewport = new FitViewport(Main.VIEWPORT_WIDTH / Main.PIXELS_PER_METRE, Main.VIEWPORT_HEIGHT / Main.PIXELS_PER_METRE, camera);
-
+        vector3 = new Vector3();
         /*
         Подгрузка карт
          */
@@ -105,36 +117,58 @@ public class GameScreen implements Screen {
     private void update(float dt){
         handleInput(dt);
         world.step(1 / 60f, 6, 2);
-        player.update(dt);
         camera.position.x = camera.position.x + (player.body2d.getPosition().x * 1f - camera.position.x + 0.2f) * .3f;
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
+
+        player.update(dt);
 
         camera.update();
         renderer.setView(camera);
     }
 
     private void handleInput(float dt) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
+            bullets.add(new Bullet(player.getX()));
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.body2d.getLinearVelocity().x <= 2)
-            player.body2d.applyLinearImpulse(new Vector2(0.0f, 0.6f), player.body2d.getWorldCenter(), true);
+            player.body2d.applyLinearImpulse(new Vector2(0.0f, 0.5f), player.body2d.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
-            player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true);
+            player.body2d.applyLinearImpulse(new Vector2(0.3f, 0), player.body2d.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -2)
-            player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true);
+            player.body2d.applyLinearImpulse(new Vector2(-0.3f, 0), player.body2d.getWorldCenter(), true);
+
+        if (Gdx.input.isTouched()){
+            vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//            System.out.println("ScreenX = " + viewport.getScreenX() + "Vector3 = " + vector3.x + "  GdxInput = " + Gdx.input.getX());
+            if (Main.VIEWPORT_HEIGHT / 2f * 0.5f< vector3.y) { player.body2d.applyLinearImpulse(new Vector2(0.0f, 0.5f), player.body2d.getWorldCenter(), true); }
+            if (Main.VIEWPORT_WIDTH / 2f * 0.5f < vector3.x) { player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true); }
+            if (Main.VIEWPORT_WIDTH / 2f * 0.5f > vector3.x) { player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
+        }
     }
 
     @Override
     public void render(float delta) {
         update(delta);
-        player.update(delta);
         Gdx.gl.glClearColor(100/255.0f, 100/255.0f, 120/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-
         batch.setProjectionMatrix(camera.combined);
-        b2dr.render(world, camera.combined);
+//        b2dr.render(world, camera.combined);
 
-        // Gdx.app.log("GameScreen FPS", (1/delta) + "");
+        batch.begin();
+            for (Bullet bullet : bullets){
+                bullet.update(delta);
+                if (bullet.remove)
+                    bulletsToRemove.add(bullet);
+            }
+            bullets.removeAll(bulletsToRemove);
+            player.draw(batch);
+            for (Bullet bullet: bullets){
+                bullet.render(batch);
+            }
+        batch.end();
+
+//        Gdx.app.log("GameScreen FPS", (1/delta) + "");
     }
 
     @Override
@@ -155,5 +189,7 @@ public class GameScreen implements Screen {
     public void dispose() {
         batch.dispose();
         world.dispose();
+        batch.dispose();
+        b2dr.dispose();
     }
 }
