@@ -5,8 +5,8 @@ import com.mygdx.game.PlayScreen.GameScreen;
 
 public class Main extends Game {
 
-	public static final int VIEWPORT_WIDTH = 360;
-	public static final int VIEWPORT_HEIGHT = 190;
+	public static final int VIEWPORT_WIDTH = 380;
+	public static final int VIEWPORT_HEIGHT = 180;
 	public static final float PIXELS_PER_METRE = 100f;
 
 	@Override
