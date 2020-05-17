@@ -63,10 +63,6 @@ public class PlayerAdv extends Sprite {
         setRegion(getFrame(dt));
     }
 
-    public State getCurrentState(){
-        return currentState;
-    }
-
     public TextureRegion getFrame(float dt) {
         currentState = getState();
 
