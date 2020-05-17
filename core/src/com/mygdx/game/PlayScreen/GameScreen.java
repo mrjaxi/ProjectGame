@@ -67,7 +67,7 @@ public class GameScreen implements Screen {
         Инициализация мира
         new Vector() устанавливает направление гравитации в мире
          */
-        world = new World(new Vector2(0, -10f), true);
+        world = new World(new Vector2(0, -9.8f), true);
         b2dr = new Box2DDebugRenderer();
 
         //---------------------------------------------------
@@ -129,8 +129,8 @@ public class GameScreen implements Screen {
     private void handleInput(float dt) {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             bullets.add(new Bullet(player.getX()));
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.body2d.getLinearVelocity().x <= 2)
-            player.body2d.applyLinearImpulse(new Vector2(0.0f, 0.5f), player.body2d.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) &&  player.currentState != PlayerAdv.State.JUMPING)
+            player.body2d.applyForceToCenter(0, 250f, true);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
             player.body2d.applyLinearImpulse(new Vector2(0.3f, 0), player.body2d.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -2)

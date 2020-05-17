@@ -15,7 +15,7 @@ import com.mygdx.game.PlayScreen.GameScreen;
 public class PlayerAdv extends Sprite {
 
     public enum State {FALLING, JUMPING, STANDING, RUNNING};
-    private State currentState;
+    public State currentState;
     private State previousState;
     private World world;
     public Body body2d;
@@ -61,6 +61,10 @@ public class PlayerAdv extends Sprite {
     public void update(float dt){
         setPosition(body2d.getPosition().x - getWidth() / 2, body2d.getPosition().y - getHeight() / 2);
         setRegion(getFrame(dt));
+    }
+
+    public State getCurrentState(){
+        return currentState;
     }
 
     public TextureRegion getFrame(float dt) {
