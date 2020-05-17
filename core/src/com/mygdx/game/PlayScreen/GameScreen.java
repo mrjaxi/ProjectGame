@@ -73,7 +73,7 @@ public class GameScreen implements Screen {
         imageButtonStyle.down = buttonsSkin.getDrawable("buttonright");
         imageButton = new ImageButton(imageButtonStyle);
         imageButton.setSize(100 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
-        imageButton.setPosition(10, 10);
+        imageButton.setPosition(100, 100);
         stage.addActor(imageButton);
 
         /*
@@ -161,9 +161,11 @@ public class GameScreen implements Screen {
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //            System.out.println("ScreenX = " + viewport.getScreenX() + "Vector3 = " + vector3.x + "  GdxInput = " + Gdx.input.getX());
-            if (Gdx.graphics.getHeight() / 2f > vector3.y  && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
+            if (Gdx.graphics.getHeight() / 2f > vector3.y && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
+            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) {
+                player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
+            }
+            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
 
