@@ -130,18 +130,18 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
             bullets.add(new Bullet(player.getX()));
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING)
-            player.body2d.applyForceToCenter(0, 250f, true);
+            player.body2d.applyForceToCenter(0, 230f, true);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
-            player.body2d.applyLinearImpulse(new Vector2(0.3f, 0), player.body2d.getWorldCenter(), true);
+            player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -2)
-            player.body2d.applyLinearImpulse(new Vector2(-0.3f, 0), player.body2d.getWorldCenter(), true);
+            player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true);
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
 //            System.out.println("ScreenX = " + viewport.getScreenX() + "Vector3 = " + vector3.x + "  GdxInput = " + Gdx.input.getX());
-            if (Gdx.graphics.getHeight() / 2f * 0.5f < vector3.y  && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 250f, true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x) { player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true); }
-            if (Gdx.graphics.getWidth()  / 2f * 0.5f > vector3.x) { player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
+            if (Gdx.graphics.getHeight() / 2f * 0.5f > vector3.y  && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
+            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
+            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
 
