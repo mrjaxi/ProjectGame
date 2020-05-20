@@ -3,10 +3,15 @@ package com.mygdx.game.MyInputProcessor;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import com.mygdx.game.Player.PlayerAdv;
 
 public class InputProcessorOne implements InputProcessor {
 
-    public InputProcessorOne(){}
+    private PlayerAdv player;
+
+    public InputProcessorOne(PlayerAdv player){
+        this.player = player;
+    }
 
     @Override
     public boolean keyDown(int keycode) {
@@ -25,9 +30,12 @@ public class InputProcessorOne implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-        if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
-
+//        if (Gdx.graphics.getWidth() / 2f * 0.5f < screenX && Gdx.graphics.getHeight() / 2f < screenY && player.body2d.getLinearVelocity().x <= 2) {
+//            player.body2d.applyLinearImpulse(new Vector2(1f, 0), player.body2d.getWorldCenter(), true);
+//        }
+//        if (Gdx.graphics.getWidth() / 2f * 0.5f > screenX && Gdx.graphics.getHeight() / 2f < screenY && player.body2d.getLinearVelocity().x >= -2) {
+//            player.body2d.applyLinearImpulse(new Vector2(-1f, 0), player.body2d.getWorldCenter(), true);
+//        }
 
         return false;
     }
@@ -39,6 +47,12 @@ public class InputProcessorOne implements InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (Gdx.graphics.getWidth() / 2f * 0.5f < screenX && Gdx.graphics.getHeight() / 2f < screenY && player.body2d.getLinearVelocity().x <= 2) {
+            player.body2d.applyLinearImpulse(new Vector2(1f, 0), player.body2d.getWorldCenter(), true);
+        }
+        if (Gdx.graphics.getWidth() / 2f * 0.5f > screenX && Gdx.graphics.getHeight() / 2f < screenY && player.body2d.getLinearVelocity().x >= -2) {
+            player.body2d.applyLinearImpulse(new Vector2(-1f, 0), player.body2d.getWorldCenter(), true);
+        }
         return false;
     }
 

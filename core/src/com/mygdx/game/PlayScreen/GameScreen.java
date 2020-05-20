@@ -138,7 +138,7 @@ public class GameScreen implements Screen {
          */
         player = new PlayerAdv(world, this);
 
-        inputOne = new InputProcessorOne();
+        inputOne = new InputProcessorOne(player);
         inputTwo = new InputProcessorTwo(player);
 
         inputMultiplexer = new InputMultiplexer();
@@ -177,12 +177,12 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -2)
             player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true);
 
-        if (Gdx.input.isTouched()){
-            vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if (Gdx.graphics.getHeight() / 2f > vector3.y && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
-        }
+//        if (Gdx.input.isTouched()){
+//            vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+//            if (Gdx.graphics.getHeight() / 2f > vector3.y && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
+//            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
+//            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
+//        }
     }
 
     @Override

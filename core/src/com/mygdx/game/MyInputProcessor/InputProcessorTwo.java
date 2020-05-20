@@ -2,12 +2,10 @@ package com.mygdx.game.MyInputProcessor;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Player.PlayerAdv;
 
 public class InputProcessorTwo implements InputProcessor {
 
-    private Vector3 vector3;
     private PlayerAdv player;
 
     public InputProcessorTwo(PlayerAdv player){
@@ -31,8 +29,7 @@ public class InputProcessorTwo implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        if (Gdx.graphics.getHeight() / 2f > screenY && player.currentState != PlayerAdv.State.JUMPING) {
+        while (Gdx.graphics.getHeight() / 2f > screenY && player.currentState != PlayerAdv.State.JUMPING){
             player.body2d.applyForceToCenter(0, 230f, true);
         }
 
@@ -41,11 +38,19 @@ public class InputProcessorTwo implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+//
+//        if (Gdx.graphics.getHeight() / 2f > screenY && player.currentState != PlayerAdv.State.JUMPING) {
+//            player.body2d.applyForceToCenter(0, 230f, true);
+//        }
+
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        if (Gdx.graphics.getHeight() / 2f > screenY && player.currentState != PlayerAdv.State.JUMPING) {
+            player.body2d.applyForceToCenter(0, 230f, true);
+        }
         return false;
     }
 
