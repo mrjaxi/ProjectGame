@@ -2,6 +2,8 @@ package com.mygdx.game.PlayScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,14 +20,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.MagickBullets.Bullet;
 import com.mygdx.game.Main;
+import com.mygdx.game.MyInputProcessor.InputProcessorOne;
+import com.mygdx.game.MyInputProcessor.InputProcessorTwo;
 import com.mygdx.game.Player.PlayerAdv;
 import com.mygdx.game.Utils.TileMapObjects;
 
@@ -42,9 +41,13 @@ public class GameScreen implements Screen {
 
     private OrthogonalTiledMapRenderer renderer;
     private Vector3 vector3;
-    private World world;
+    public World world;
     private Box2DDebugRenderer b2dr;
     private PlayerAdv player;
+
+    private InputMultiplexer inputMultiplexer;
+    private InputProcessor inputOne;
+    private InputProcessor inputTwo;
 
     private TextureAtlas textureAtlas;
     private Skin buttonsSkin;
@@ -73,15 +76,15 @@ public class GameScreen implements Screen {
 
         stage = new Stage(viewport, batch);
 
-        textureAtlas = new TextureAtlas("buttonLR.atlas");
-        buttonsSkin = new Skin(textureAtlas);
-        imageButtonStyle = new ImageButton.ImageButtonStyle();
-        imageButtonStyle.up = buttonsSkin.getDrawable("buttonleft");
-        imageButtonStyle.down = buttonsSkin.getDrawable("buttonright");
-        imageButton = new ImageButton(imageButtonStyle);
-        imageButton.setSize(100 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
-        imageButton.setPosition(100, 100);
-        stage.addActor(imageButton);
+//        textureAtlas = new TextureAtlas("buttonLR.atlas");
+//        buttonsSkin = new Skin(textureAtlas);
+//        imageButtonStyle = new ImageButton.ImageButtonStyle();
+//        imageButtonStyle.up = buttonsSkin.getDrawable("buttonleft");
+//        imageButtonStyle.down = buttonsSkin.getDrawable("buttonright");
+//        imageButton = new ImageButton(imageButtonStyle);
+//        imageButton.setSize(100 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
+//        imageButton.setPosition(100, 100);
+//        stage.addActor(imageButton);
 
         /*
         Подгрузка карт
@@ -134,6 +137,13 @@ public class GameScreen implements Screen {
         Инициализируем игрока на карте
          */
         player = new PlayerAdv(world, this);
+
+        inputOne = new InputProcessorOne();
+        inputTwo = new InputProcessorTwo(player);
+
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(inputOne);
+        inputMultiplexer.addProcessor(inputTwo);
     }
 
     public TextureAtlas getAtlas(){
@@ -141,7 +151,9 @@ public class GameScreen implements Screen {
     }
 
     @Override
-    public void show() {}
+    public void show() {
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
 
     private void update(float dt){
         handleInput(dt);
@@ -167,11 +179,8 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-//            System.out.println("ScreenX = " + viewport.getScreenX() + "Vector3 = " + vector3.x + "  GdxInput = " + Gdx.input.getX());
             if (Gdx.graphics.getHeight() / 2f > vector3.y && player.currentState != PlayerAdv.State.JUMPING) { player.body2d.applyForceToCenter(0, 230f, true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) {
-                player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
-            }
+            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
             if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
@@ -185,8 +194,9 @@ public class GameScreen implements Screen {
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
 //        b2dr.render(world, camera.combined);
-
         stage.draw();
+        stage.act(delta);
+
 
         batch.begin();
             for (Bullet bullet : bullets){
@@ -199,6 +209,7 @@ public class GameScreen implements Screen {
             for (Bullet bullet: bullets){
                 bullet.render(batch);
             }
+
         batch.end();
 
 //        Gdx.app.log("GameScreen FPS", (1/delta) + "");
@@ -225,5 +236,10 @@ public class GameScreen implements Screen {
         batch.dispose();
         b2dr.dispose();
         stage.dispose();
+    }
+
+    public InputProcessor CustomInputProcessorOne(){
+
+        return null;
     }
 }
