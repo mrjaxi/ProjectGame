@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(Main main){
         this.main = main;
-        atlas = new TextureAtlas("Mario.pack");
+        atlas = new TextureAtlas(Gdx.files.internal("Player/Mario.pack"));
         batch = new SpriteBatch();
         batch.disableBlending();
 
