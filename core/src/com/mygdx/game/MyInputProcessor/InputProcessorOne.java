@@ -29,7 +29,7 @@ public class InputProcessorOne implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (Gdx.graphics.getHeight() / 2f > screenY && player.currentState != PlayerAdv.State.JUMPING){
+        if ((Gdx.graphics.getWidth() / 2f) < screenX && player.currentState != PlayerAdv.State.JUMPING){
             player.body2d.applyForceToCenter(0, 230f, true);
         }
         return false;

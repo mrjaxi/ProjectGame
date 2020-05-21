@@ -18,7 +18,6 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mygdx.game.MagickBullets.Bullet;
 import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
@@ -40,7 +39,6 @@ public class GameScreen implements Screen {
     private PlayerAdv player;
 
     private InputMultiplexer inputMultiplexer;
-    private InputProcessor inputOne;
 
     public GameScreen(Main main){
         this.main = main;
@@ -106,7 +104,7 @@ public class GameScreen implements Screen {
          */
         player = new PlayerAdv(world, this);
 
-        inputOne = new InputProcessorOne(player);
+        InputProcessor inputOne = new InputProcessorOne(player);
 
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputOne);
@@ -143,8 +141,8 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if (Gdx.graphics.getWidth() / 2f * 0.5f < vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-            if (Gdx.graphics.getWidth() / 2f * 0.5f > vector3.x && Gdx.graphics.getHeight() / 2f < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
+            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f) < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
 

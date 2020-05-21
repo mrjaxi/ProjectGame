@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.mygdx.game.PlayScreen.GameScreen;
 
 public class Main extends Game {
