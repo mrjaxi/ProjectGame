@@ -32,7 +32,7 @@ public class PlayerAdv extends Sprite {
     private boolean runningRight;
 
     public PlayerAdv(World world, GameScreen screen){
-        super(screen.getAtlas().findRegion("Player/little_mario"));
+        super(screen.getAtlas().findRegion("little_mario"));
         this.world = world;
 
         /*
