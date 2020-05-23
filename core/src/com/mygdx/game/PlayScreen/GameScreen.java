@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        TiledMap map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/map.tmx")));
+        TiledMap map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/TmxMap/Map.tmx")));
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -103,7 +103,7 @@ public class GameScreen implements Screen {
         Инициализируем игрока на карте
          */
         player = new PlayerAdv(world, this);
-
+//        world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
 
         inputMultiplexer = new InputMultiplexer();
@@ -118,6 +118,8 @@ public class GameScreen implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
+
+
 
     private void update(float dt){
         handleInput(dt);

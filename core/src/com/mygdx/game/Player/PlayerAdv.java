@@ -1,6 +1,5 @@
 package com.mygdx.game.Player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -121,5 +120,8 @@ public class PlayerAdv extends Sprite {
 
         fixtureDef.shape = shape;
         body2d.createFixture(fixtureDef);
+        fixtureDef.shape = shape;
+        fixtureDef.isSensor = true;
+        body2d.setUserData("PlayerBody");
     }
 }
