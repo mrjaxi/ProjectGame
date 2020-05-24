@@ -13,7 +13,7 @@ import com.mygdx.game.Main;
 import com.mygdx.game.PlayScreen.GameScreen;
 
 public class PlayerAdv extends Sprite {
-
+//rhe
     public enum State {FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     private State previousState;
