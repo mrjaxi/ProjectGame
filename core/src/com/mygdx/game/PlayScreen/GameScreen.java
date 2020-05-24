@@ -120,7 +120,7 @@ public class GameScreen implements Screen {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputOne);
     }
-
+//еура
     public TextureAtlas getAtlas(){
         return atlas;
     }
