@@ -159,7 +159,7 @@ public class GameScreen implements Screen {
                 player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
-//ge
+
     @Override
     public void render(float delta) {
         update(delta);
