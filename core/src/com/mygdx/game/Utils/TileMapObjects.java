@@ -25,7 +25,7 @@ public class TileMapObjects {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject object : map.getLayers().get(1).getObjects()){
+        for(MapObject object : map.getLayers().get(5).getObjects()){
             Shape shape;
             new TestCollisionObject(world, map);
             if (object instanceof RectangleMapObject) {
