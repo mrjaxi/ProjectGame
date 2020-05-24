@@ -163,7 +163,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(100/255.0f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
