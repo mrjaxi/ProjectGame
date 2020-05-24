@@ -34,7 +34,7 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private TextureAtlas atlas;
     private Viewport viewport;
-    private OrthographicCamera camera;
+    public OrthographicCamera camera;
 
     private OrthogonalTiledMapRenderer renderer;
     private Vector3 vector3;
@@ -55,7 +55,7 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        viewport = new ExtendViewport(Main.VIEWPORT_WIDTH / Main.PIXELS_PER_METRE, Main.VIEWPORT_HEIGHT / Main.PIXELS_PER_METRE, camera);
+        viewport = new ExtendViewport(Main.V_WIDTH / Main.PIXELS_PER_METRE, Main.V_HEIGHT / Main.PIXELS_PER_METRE, camera);
 
         vector3 = new Vector3();
 
@@ -111,7 +111,7 @@ public class GameScreen implements Screen {
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.02f);
-        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.3f,
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE,
                 player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
 //        world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
@@ -153,9 +153,9 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
                 player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true); }
-            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f) < vector3.y && player.body2d.getLinearVelocity().x >= -2) {
+            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x >= -2) {
                 player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
