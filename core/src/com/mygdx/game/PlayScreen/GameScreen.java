@@ -40,7 +40,7 @@ public class GameScreen implements Screen {
     private SpriteBatch batch;
     private TextureAtlas atlas;
     private Viewport viewport;
-    private OrthographicCamera camera;
+    public OrthographicCamera camera;
 
     private OrthogonalTiledMapRenderer renderer;
     private Vector3 vector3;
@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 
         camera = new OrthographicCamera();
 
-        viewport = new ExtendViewport(Main.VIEWPORT_WIDTH / Main.PIXELS_PER_METRE, Main.VIEWPORT_HEIGHT / Main.PIXELS_PER_METRE, camera);
+        viewport = new ExtendViewport(Main.V_WIDTH / Main.PIXELS_PER_METRE, Main.V_HEIGHT / Main.PIXELS_PER_METRE, camera);
 
         vector3 = new Vector3();
 
