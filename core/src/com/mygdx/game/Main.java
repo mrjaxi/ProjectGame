@@ -8,7 +8,6 @@ public class Main extends Game {
 	public static final int VIEWPORT_WIDTH = 760;
 	public static final int VIEWPORT_HEIGHT = 360;
 	public static final float PIXELS_PER_METRE = 100f;
-	private GameScreen gameScreen;
 
 	@Override
 	public void create () {

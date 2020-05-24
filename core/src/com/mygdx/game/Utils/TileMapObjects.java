@@ -19,7 +19,16 @@ import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
 
-public class TileMapObjects {
+public class TileMapObjects extends InteractiveTileObjects {
+    public TileMapObjects(World world, TiledMap map, Rectangle rectangle) {
+        super(world, map, rectangle);
+    }
+
+    @Override
+    public void onHit() {
+
+    }
+
     public static void parseTileMapObject(TiledMap map, World world){
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -27,7 +36,6 @@ public class TileMapObjects {
 
         for(MapObject object : map.getLayers().get(5).getObjects()){
             Shape shape;
-            new TestCollisionObject(world, map);
             if (object instanceof RectangleMapObject) {
                 shape = getRectangle((RectangleMapObject)object);
             }
@@ -48,9 +56,6 @@ public class TileMapObjects {
             fdef.shape = shape;
             body.createFixture(fdef);
         }
-
-
-
       }
 
     private static PolygonShape getRectangle(RectangleMapObject rectangleObject) {

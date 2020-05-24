@@ -3,8 +3,10 @@ package com.mygdx.game.Player;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -110,7 +112,7 @@ public class PlayerAdv extends Sprite {
         /*
         Выставляем параметры для начальной позиции игрока по X и Y
          */
-        bodyDef.position.set(3000 / Main.PIXELS_PER_METRE, 500 / Main.PIXELS_PER_METRE);
+        bodyDef.position.set(1000 / Main.PIXELS_PER_METRE, 500 / Main.PIXELS_PER_METRE);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body2d = world.createBody(bodyDef);
 
@@ -119,9 +121,7 @@ public class PlayerAdv extends Sprite {
         shape.setAsBox(12f / Main.PIXELS_PER_METRE, 12.5f / Main.PIXELS_PER_METRE);
 
         fixtureDef.shape = shape;
-        body2d.createFixture(fixtureDef);
-        fixtureDef.shape = shape;
-        fixtureDef.isSensor = true;
-        body2d.setUserData("PlayerBody");
+//        fixtureDef.isSensor = true;
+        body2d.createFixture(fixtureDef).setUserData("PlayerBody");;
     }
 }

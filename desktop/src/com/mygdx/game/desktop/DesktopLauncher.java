@@ -8,8 +8,8 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.backgroundFPS = 60;
-		config.foregroundFPS = 60;
+		config.backgroundFPS = 1000;
+		config.foregroundFPS = 1000;
 
 		new LwjglApplication(new Main(), config);
 	}

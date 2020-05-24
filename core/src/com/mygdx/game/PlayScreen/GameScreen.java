@@ -10,18 +10,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
+import com.mygdx.game.Utils.InteractiveTileObjects;
+import com.mygdx.game.Utils.TestCollisionObject;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -41,6 +47,8 @@ public class GameScreen implements Screen {
     public World world;
     private Box2DDebugRenderer b2dr;
     private PlayerAdv player;
+
+    private TiledMap map;
 
     private PointLight pointLight;
     private RayHandler rayHandler;
@@ -63,7 +71,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        TiledMap map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/testdurka.tmx")));
+        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/testdurka.tmx")));
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -104,6 +112,12 @@ public class GameScreen implements Screen {
         /*
         А это норм пацан, без линий делает, в Utils основной код
          */
+        for(MapObject object : map.getLayers().get(6).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+            new TestCollisionObject(world, map, rectangle);
+        }
+
         TileMapObjects.parseTileMapObject(map, world);
         /*
         Инициализируем игрока на карте
@@ -111,9 +125,10 @@ public class GameScreen implements Screen {
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.02f);
-        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.3f,
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE,
                 player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
-//        world.setContactListener(new Listener());
+
+        world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
 
         inputMultiplexer = new InputMultiplexer();
@@ -137,7 +152,6 @@ public class GameScreen implements Screen {
         camera.position.x = camera.position.x + (player.body2d.getPosition().x * 1f - camera.position.x + 0.2f) * .3f;
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
         rayHandler.update();
-
         player.update(dt);
         camera.update();
         renderer.setView(camera);
@@ -153,9 +167,9 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
                 player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true); }
-            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f) < vector3.y && player.body2d.getLinearVelocity().x >= -2) {
+            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x >= -2) {
                 player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
@@ -163,14 +177,13 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(0.9f, 100/255.0f, 120/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
         rayHandler.render();
-        b2dr.render(world, camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
-
+        b2dr.render(world, camera.combined);
 //        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
         batch.begin();
             player.draw(batch);
@@ -200,10 +213,5 @@ public class GameScreen implements Screen {
         world.dispose();
         batch.dispose();
         b2dr.dispose();
-    }
-
-    public InputProcessor CustomInputProcessorOne(){
-
-        return null;
     }
 }
