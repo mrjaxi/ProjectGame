@@ -134,7 +134,7 @@ public class GameScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.currentState != PlayerAdv.State.JUMPING)
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING)
             player.body2d.applyForceToCenter(0, 230f, true);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
             player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
@@ -156,7 +156,7 @@ public class GameScreen implements Screen {
 
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
-        b2dr.render(world, camera.combined);
+//        b2dr.render(world, camera.combined);
 
         batch.begin();
             player.draw(batch);
