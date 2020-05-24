@@ -11,7 +11,7 @@ public abstract class InteractiveTileObjects {
     protected TiledMap map;
     protected TiledMapTile tile;
     protected Body body;
-
+//Тест
     public InteractiveTileObjects(World world, TiledMap map){
         this.world = world;
         this.map = map;
