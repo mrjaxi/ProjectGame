@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        TiledMap map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/TmxMap/Map.tmx")));
+        TiledMap map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/testdurka.tmx")));
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -147,7 +147,7 @@ public class GameScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.currentState != PlayerAdv.State.JUMPING)
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING)
             player.body2d.applyForceToCenter(0, 230f, true);
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
             player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
