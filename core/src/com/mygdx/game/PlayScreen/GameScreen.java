@@ -110,10 +110,9 @@ public class GameScreen implements Screen {
          */
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(.1f);
-//        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 90 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.1f,
-//                player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
-        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, -0.11f,0);
+        rayHandler.setAmbientLight(.02f);
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.3f,
+                player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
 //        world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
 
@@ -137,11 +136,9 @@ public class GameScreen implements Screen {
         world.step(1 / 60f, 6, 2);
         camera.position.x = camera.position.x + (player.body2d.getPosition().x * 1f - camera.position.x + 0.2f) * .3f;
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
-
         rayHandler.update();
-        player.update(dt);
 
-//        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
+        player.update(dt);
         camera.update();
         renderer.setView(camera);
     }
@@ -173,6 +170,8 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
         rayHandler.render();
         b2dr.render(world, camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
+
+//        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
         batch.begin();
             player.draw(batch);
         batch.end();
