@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,6 +24,9 @@ import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
 import com.mygdx.game.Utils.TileMapObjects;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
+
 
 public class GameScreen implements Screen {
 
@@ -38,11 +42,14 @@ public class GameScreen implements Screen {
     private Box2DDebugRenderer b2dr;
     private PlayerAdv player;
 
+    private PointLight pointLight;
+    private RayHandler rayHandler;
+
     private InputMultiplexer inputMultiplexer;
 
     public GameScreen(Main main){
         this.main = main;
-        atlas = new TextureAtlas(Gdx.files.internal("Player/Mario.pack"));
+        atlas = new TextureAtlas(Gdx.files.internal("Player/Mario_and_Enemies.pack"));
         batch = new SpriteBatch();
         batch.disableBlending();
 
@@ -98,11 +105,15 @@ public class GameScreen implements Screen {
         А это норм пацан, без линий делает, в Utils основной код
          */
         TileMapObjects.parseTileMapObject(map, world);
-
         /*
         Инициализируем игрока на карте
          */
         player = new PlayerAdv(world, this);
+        rayHandler = new RayHandler(world);
+        rayHandler.setAmbientLight(.1f);
+//        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 90 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.1f,
+//                player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, -0.11f,0);
 //        world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
 
@@ -127,8 +138,10 @@ public class GameScreen implements Screen {
         camera.position.x = camera.position.x + (player.body2d.getPosition().x * 1f - camera.position.x + 0.2f) * .3f;
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
 
+        rayHandler.update();
         player.update(dt);
 
+//        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
         camera.update();
         renderer.setView(camera);
     }
@@ -156,8 +169,8 @@ public class GameScreen implements Screen {
 
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
-        b2dr.render(world, camera.combined);
-
+        rayHandler.render();
+        b2dr.render(world, camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
         batch.begin();
             player.draw(batch);
         batch.end();
@@ -181,6 +194,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        rayHandler.dispose();
         batch.dispose();
         world.dispose();
         batch.dispose();

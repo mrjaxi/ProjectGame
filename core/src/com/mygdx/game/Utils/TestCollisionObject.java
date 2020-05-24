@@ -25,6 +25,6 @@ public class TestCollisionObject extends InteractiveTileObjects{
         shape.setAsBox(7f / Main.PIXELS_PER_METRE, 7f / Main.PIXELS_PER_METRE);
         fdef.shape = shape;
         body.createFixture(fdef);
-
+        body.setLinearDamping(20f);
     }
 }

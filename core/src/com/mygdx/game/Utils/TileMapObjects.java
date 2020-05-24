@@ -20,11 +20,10 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
 
 public class TileMapObjects {
-
     public static void parseTileMapObject(TiledMap map, World world){
         BodyDef bdef = new BodyDef();
-        Body body;
         FixtureDef fdef = new FixtureDef();
+        Body body;
 
         for(MapObject object : map.getLayers().get(1).getObjects()){
             Shape shape;
