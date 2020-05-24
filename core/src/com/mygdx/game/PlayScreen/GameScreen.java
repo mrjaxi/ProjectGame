@@ -156,8 +156,10 @@ public class GameScreen implements Screen {
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) { player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f) < vector3.y && player.body2d.getLinearVelocity().x >= -2) { player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
+                player.body2d.applyLinearImpulse(new Vector2(0.2f, 0), player.body2d.getWorldCenter(), true); }
+            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f) < vector3.y && player.body2d.getLinearVelocity().x >= -2) {
+                player.body2d.applyLinearImpulse(new Vector2(-0.2f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
 

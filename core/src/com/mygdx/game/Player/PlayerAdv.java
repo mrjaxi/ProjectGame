@@ -54,7 +54,7 @@ public class PlayerAdv extends Sprite {
         playerJump = new Animation<>(0.1f, frames);
         TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 16, 16);
         definePlayer();
-        setBounds(0, 0, 24 / Main.PIXELS_PER_METRE, 24 / Main.PIXELS_PER_METRE);
+        setBounds(0, 0, 30 / Main.PIXELS_PER_METRE, 30 / Main.PIXELS_PER_METRE);
         setRegion(playerStand);
     }
 
@@ -116,7 +116,7 @@ public class PlayerAdv extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(7.5f / Main.PIXELS_PER_METRE, 10.3f / Main.PIXELS_PER_METRE);
+        shape.setAsBox(12f / Main.PIXELS_PER_METRE, 12.5f / Main.PIXELS_PER_METRE);
 
         fixtureDef.shape = shape;
         body2d.createFixture(fixtureDef);
