@@ -26,7 +26,6 @@ import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
-import com.mygdx.game.Utils.InteractiveTileObjects;
 import com.mygdx.game.Utils.TestCollisionObject;
 import com.mygdx.game.Utils.TileMapObjects;
 
@@ -71,7 +70,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/testdurka.tmx")));
+        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/TmxMap/Map.tmx")));
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -112,7 +111,8 @@ public class GameScreen implements Screen {
         /*
         А это норм пацан, без линий делает, в Utils основной код
          */
-        for(MapObject object : map.getLayers().get(6).getObjects()){
+
+        for(MapObject object : map.getLayers().get(3).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 
             new TestCollisionObject(world, map, rectangle);
@@ -125,8 +125,8 @@ public class GameScreen implements Screen {
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.02f);
-        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE,
-                player.body2d.getPosition().y / Main.PIXELS_PER_METRE);
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.05f,
+                player.body2d.getPosition().y / Main.PIXELS_PER_METRE - 0.1f);
 
         world.setContactListener(new Listener());
         InputProcessor inputOne = new InputProcessorOne(player);
@@ -177,7 +177,7 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(0.9f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();

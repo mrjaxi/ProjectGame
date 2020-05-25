@@ -34,7 +34,7 @@ public class TileMapObjects extends InteractiveTileObjects {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-        for(MapObject object : map.getLayers().get(5).getObjects()){
+        for(MapObject object : map.getLayers().get(2).getObjects()){
             Shape shape;
             if (object instanceof RectangleMapObject) {
                 shape = getRectangle((RectangleMapObject)object);

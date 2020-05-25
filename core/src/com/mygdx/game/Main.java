@@ -9,27 +9,29 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.PlayScreen.GameScreen;
 import com.mygdx.game.PlayScreen.LoadingScreen;
 import com.mygdx.game.PlayScreen.MainMenuGame;
 import com.mygdx.game.PlayScreen.SplashScreen;
 
-//import com.mygdx.game.PlayScreen.PlayScreen;
-
 public class Main extends Game {
-
-	public OrthographicCamera camera;
-	public SpriteBatch batch;
-
-	public BitmapFont font24;
-	public AssetManager assets;
 
 	public static final String TITLE = "Escape From Durka";
 	public static final float VERSION = 0.57f;
 	public static final int V_WIDTH = 760;
 	public static final int V_HEIGHT = 360;
 	public static final float PIXELS_PER_METRE = 100f;
+	public static final short DEFAULT_BIT = 1;
+	public static final short PLAYER_BIT = 2;
+	public static final short COINS = 2;
+	public static final short DESTROYED_BIT = 16;
 
+	public OrthographicCamera camera;
+	private Viewport viewport;
+	private SpriteBatch batch;
+	public BitmapFont font24;
+	public AssetManager assets;
 	public LoadingScreen loadingScreen;
 	public SplashScreen splashScreen;
 	public MainMenuGame mainMenuGame;
@@ -49,10 +51,10 @@ public class Main extends Game {
 		mainMenuGame = new MainMenuGame(this);
 		gameScreen = new GameScreen(this);
 
-		this.setScreen(loadingScreen);
+//		this.setScreen(loadingScreen);
 
-		//this.setScreen(new SplashScreen(this));
-		//this.setScreen(new GameScreen(this));
+//		this.setScreen(new SplashScreen(this));
+		this.setScreen(new GameScreen(this));
 	}
 
 	@Override
@@ -84,4 +86,3 @@ public class Main extends Game {
 		font24 = generator.generateFont(params);
 	}
 }
-
