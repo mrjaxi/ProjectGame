@@ -1,0 +1,12 @@
+
+SkyAnime.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+���� ��� �����
+  rotate: false
+  xy: 1, 1
+  size: 272, 160
+  orig: 272, 160
+  offset: 0, 0
+  index: -1

@@ -63,7 +63,6 @@ public class Main extends Game {
 		if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 			Gdx.app.exit();
 		}
-
 	}
 
 	@Override

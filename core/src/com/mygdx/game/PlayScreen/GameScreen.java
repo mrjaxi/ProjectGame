@@ -70,7 +70,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/TmxMap/Map.tmx")));
+        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest//.tmx")));
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
