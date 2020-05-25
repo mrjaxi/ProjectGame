@@ -26,6 +26,9 @@ import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
+import com.mygdx.game.Utils.CollisionObjectCoin;
+import com.mygdx.game.Utils.CollisionObjectDoor;
+import com.mygdx.game.Utils.CollisionObjectKey;
 import com.mygdx.game.Utils.TestCollisionObject;
 import com.mygdx.game.Utils.TileMapObjects;
 
@@ -70,7 +73,7 @@ public class GameScreen implements Screen {
         Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest//.tmx")));
+        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/16bit.tmx")));  //   Maps/OldMapForTest/Roma/16bit.tmx      Maps/TmxMap/Map.tmx
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -112,11 +115,23 @@ public class GameScreen implements Screen {
         А это норм пацан, без линий делает, в Utils основной код
          */
 
-        for(MapObject object : map.getLayers().get(3).getObjects()){
+//        for(MapObject object : map.getLayers().get(6).getObjects()){
+//            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+//
+//            new CollisionObjectDoor(world, map, rectangle);
+//        }
+
+        for(MapObject object : map.getLayers().get(9).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 
-            new TestCollisionObject(world, map, rectangle);
+            new CollisionObjectCoin(world, map, rectangle);
         }
+
+//        for(MapObject object : map.getLayers().get(4).getObjects()){
+//            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+//
+//            new CollisionObjectKey(world, map, rectangle);
+//        }
 
         TileMapObjects.parseTileMapObject(map, world);
         /*
@@ -134,7 +149,7 @@ public class GameScreen implements Screen {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputOne);
     }
-//еура
+
     public TextureAtlas getAtlas(){
         return atlas;
     }

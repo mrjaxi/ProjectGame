@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
+import com.mygdx.game.PlayScreen.GameScreen;
 
 public abstract class InteractiveTileObjects {
 
@@ -21,6 +22,7 @@ public abstract class InteractiveTileObjects {
     protected Rectangle bounds;
     protected Body body;
 
+    Main main = new Main();
     protected Fixture fixture;
 
     public InteractiveTileObjects(World world, TiledMap tiledMap, Rectangle bounds){
@@ -51,8 +53,25 @@ public abstract class InteractiveTileObjects {
         fixture.setFilterData(filter);
     }
 
-    public TiledMapTileLayer.Cell getCell(){
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(1);
+    public TiledMapTileLayer.Cell getCellDoor(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(9);
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
+    }
+
+    public TiledMapTileLayer.Cell getCellCoin(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+
+        main.coins++;
+        System.out.println("Coins" + main.coins);
+
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
+    }
+
+    public TiledMapTileLayer.Cell getCellKey(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        //main.key1 = true;
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
                 (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
     }

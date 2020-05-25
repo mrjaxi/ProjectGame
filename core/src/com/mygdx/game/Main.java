@@ -23,9 +23,14 @@ public class Main extends Game {
 	public static final int V_HEIGHT = 360;
 	public static final float PIXELS_PER_METRE = 100f;
 	public static final short DEFAULT_BIT = 1;
-	public static final short PLAYER_BIT = 2;
-	public static final short COINS = 2;
+	public static final short PLAYER_BIT = 8;
+	public static final short COINS = 8;
 	public static final short DESTROYED_BIT = 16;
+
+	public int coins;
+
+	public boolean key1;
+	public boolean KEY2;
 
 	public OrthographicCamera camera;
 	private Viewport viewport;

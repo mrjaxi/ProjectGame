@@ -45,7 +45,7 @@ public class PlayerAdv extends Sprite {
         runningRight = true;
 
         Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 1; i < 4; i++)
+        for (int i = 1; i < 6; i++)
             frames.add(new TextureRegion(getTexture(), i * 16, 10, 16, 16));
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
@@ -54,9 +54,9 @@ public class PlayerAdv extends Sprite {
             frames.add(new TextureRegion(getTexture(),i * 16, 10, 16, 16));
         }
         playerJump = new Animation<>(0.1f, frames);
-        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 26, 26);
+        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 16, 16);
         definePlayer();
-        setBounds(0, 0, 24 / Main.PIXELS_PER_METRE, 24 / Main.PIXELS_PER_METRE);
+        setBounds(0, 0, 16 / Main.PIXELS_PER_METRE, 16 / Main.PIXELS_PER_METRE);
         setRegion(playerStand);
     }
 
@@ -118,7 +118,7 @@ public class PlayerAdv extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12f / Main.PIXELS_PER_METRE, 12.5f / Main.PIXELS_PER_METRE);
+        shape.setAsBox(7f / Main.PIXELS_PER_METRE, 7f / Main.PIXELS_PER_METRE);
 
         fixtureDef.filter.categoryBits = Main.PLAYER_BIT;
         fixtureDef.filter.maskBits = Main.DEFAULT_BIT | Main.COINS;
