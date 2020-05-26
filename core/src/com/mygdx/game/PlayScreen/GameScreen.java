@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
 
             new CollisionObjectKey(world, map, rectangle);
         }
-
+//54y
         TileMapObjects.parseTileMapObject(map, world);
         /*
         Инициализируем игрока на карте
