@@ -44,7 +44,7 @@ public class SplashScreen implements Screen {
             }
         };
 
-        Texture splashTex = main.assets.get("img/plak.png", Texture.class);
+        Texture splashTex = main.assets.get("img/loading.png", Texture.class);
         splashImg = new Image(splashTex);
         splashImg.setOrigin(splashImg.getWidth() / 1000, splashImg.getHeight() / 1000);
         splashImg.setPosition(stage.getWidth() / 2 - 512, stage.getHeight() + 512);
@@ -59,7 +59,7 @@ public class SplashScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(12/255f, 0/255.0f, 43/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
@@ -97,4 +97,3 @@ public class SplashScreen implements Screen {
         stage.dispose();
     }
 }
-

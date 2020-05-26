@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
@@ -62,7 +63,6 @@ public class GameScreen implements Screen {
         this.main = main;
         atlas = new TextureAtlas(Gdx.files.internal("Player/Mario_and_Enemies.pack"));
         batch = new SpriteBatch();
-
         camera = new OrthographicCamera();
 
         viewport = new ExtendViewport(Main.V_WIDTH / Main.PIXELS_PER_METRE, Main.V_HEIGHT / Main.PIXELS_PER_METRE, camera);
@@ -139,7 +139,8 @@ public class GameScreen implements Screen {
          */
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
-        rayHandler.setAmbientLight(.02f);
+        rayHandler.setAmbientLight(.01f);
+
         pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.2f,
                 player.body2d.getPosition().y / Main.PIXELS_PER_METRE - 0.1f);
 
@@ -174,8 +175,10 @@ public class GameScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING)
-            player.body2d.applyForceToCenter(0, 230f, true);
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING) {
+            player.body2d.applyForceToCenter(0, 160f, true);
+//            player.body2d.applyForceToCenter(0, -40f, true);
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
             player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -2)

@@ -23,7 +23,7 @@ public class LoadingScreen implements Screen {
     }
 
     private void queueAssets() {
-        main.assets.load("img/plak.png", Texture.class);
+        main.assets.load("img/loading.png", Texture.class);
         main.assets.load("User interface/skin.atlas", TextureAtlas.class);
     }
 
@@ -37,8 +37,8 @@ public class LoadingScreen implements Screen {
     }
 
     private void update(float delta) {
-        progress = MathUtils.lerp(progress, main.assets.getProgress(), 0.1f);
-        if (main.assets.update() && progress >= main.assets.getProgress() - .001f) {
+        progress = MathUtils.lerp(progress, main.assets.getProgress(), 0.059f);
+        if (main.assets.update() && progress >= main.assets.getProgress() - .000003f) {
             main.setScreen(main.splashScreen);
         }
     }
@@ -46,16 +46,16 @@ public class LoadingScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(12/255f, 0/255.0f, 43/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, main.camera.viewportWidth - 64, 16);
 
-        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.setColor(Color.CORAL);
         shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, progress * (main.camera.viewportWidth - 64), 16);
         shapeRenderer.end();
     }
@@ -85,4 +85,3 @@ public class LoadingScreen implements Screen {
         shapeRenderer.dispose();
     }
 }
-

@@ -59,13 +59,12 @@ public class MainMenuGame implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(12/255f, 0/255.0f, 43/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         update(delta);
 
         stage.draw();
-
     }
 
     @Override
@@ -96,8 +95,8 @@ public class MainMenuGame implements Screen {
 
     private void Buttons() {
         buttonPlay = new TextButton("Play", skin, "default");
-        buttonPlay.setPosition(110, 260);
-        buttonPlay.setSize(280, 60);
+        buttonPlay.setPosition(150, 210);
+        buttonPlay.setSize(140, 50);
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -107,8 +106,8 @@ public class MainMenuGame implements Screen {
         });
 
         buttonExit = new TextButton("Exit", skin, "default");
-        buttonExit.setPosition(110, 190);
-        buttonExit.setSize(280, 60);
+        buttonExit.setPosition(150, 130);
+        buttonExit.setSize(140, 50);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener() {
             @Override
@@ -122,4 +121,3 @@ public class MainMenuGame implements Screen {
     }
 
 }
-

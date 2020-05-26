@@ -9,8 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Main;
 
@@ -18,6 +16,7 @@ public class Hud implements Disposable {
 
     public Stage stage;
     private Viewport viewport;
+    public float counter = 0;
     public static Integer intKey;
     public static Integer intCoin;
     public static String warning;
@@ -55,7 +54,13 @@ public class Hud implements Disposable {
 
     public void update(float dt){
         key.setText("Key: " + intKey);
-        warnings.setText(warning);
+        counter = dt;
+        if (dt < counter + 0.0005f) {
+            warnings.setText(warning);
+        }else {
+            warning = "";
+            warnings.setText(warning);
+        }
         coin.setText("Coin: " + intCoin);
     }
 
