@@ -4,11 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
+import com.mygdx.game.UserInterface.Hud;
 
 public class CollisionObjectCoin extends InteractiveTileObjects{
-
-    public static int coin = 0;
-
     public CollisionObjectCoin(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
         fixture.setUserData(this);
@@ -19,6 +17,6 @@ public class CollisionObjectCoin extends InteractiveTileObjects{
     public void onHit() {
         setCategoryFilter(Main.DESTROYED_BIT);
         getCellCoin().setTile(null);
-//        System.out.println(coin++);
+        Hud.intCoin++;
     }
 }

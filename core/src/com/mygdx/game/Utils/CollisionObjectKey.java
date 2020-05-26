@@ -4,10 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
+import com.mygdx.game.UserInterface.Hud;
 
 public class CollisionObjectKey extends InteractiveTileObjects{
-
-    public static int key = 0;
 
     public CollisionObjectKey(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
@@ -19,5 +18,6 @@ public class CollisionObjectKey extends InteractiveTileObjects{
     public void onHit() {
         setCategoryFilter(Main.DESTROYED_BIT);
         getCellKey().setTile(null);
+        Hud.intKey += 1;
     }
 }

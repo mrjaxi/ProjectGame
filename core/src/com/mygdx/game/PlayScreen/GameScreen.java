@@ -26,8 +26,10 @@ import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
+import com.mygdx.game.UserInterface.Hud;
 import com.mygdx.game.Utils.CollisionObjectCoin;
 import com.mygdx.game.Utils.CollisionObjectDoor;
+import com.mygdx.game.Utils.CollisionObjectKey;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -50,6 +52,7 @@ public class GameScreen implements Screen {
 
     private TiledMap map;
 
+    private Hud hud;
     private PointLight pointLight;
     private RayHandler rayHandler;
 
@@ -59,7 +62,6 @@ public class GameScreen implements Screen {
         this.main = main;
         atlas = new TextureAtlas(Gdx.files.internal("Player/Mario_and_Enemies.pack"));
         batch = new SpriteBatch();
-        batch.disableBlending();
 
         camera = new OrthographicCamera();
 
@@ -113,6 +115,8 @@ public class GameScreen implements Screen {
         А это норм пацан, без линий делает, в Utils основной код
          */
 
+        hud = new Hud(batch, main);
+
         for(MapObject object : map.getLayers().get(10).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             new CollisionObjectDoor(world, map, rectangle);
@@ -123,11 +127,11 @@ public class GameScreen implements Screen {
             new CollisionObjectCoin(world, map, rectangle);
         }
 
-//        for(MapObject object : map.getLayers().get(4).getObjects()){
-//            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-//
-//            new CollisionObjectKey(world, map, rectangle);
-//        }
+        for(MapObject object : map.getLayers().get(8).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+            new CollisionObjectKey(world, map, rectangle);
+        }
 
         TileMapObjects.parseTileMapObject(map, world);
         /*
@@ -165,6 +169,7 @@ public class GameScreen implements Screen {
         rayHandler.update();
         player.update(dt);
         camera.update();
+        hud.update(dt);
         renderer.setView(camera);
     }
 
@@ -188,19 +193,21 @@ public class GameScreen implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        Gdx.gl.glClearColor(1.4f, 100/255.0f, 120/255.0f, 1f);
+        Gdx.gl.glClearColor(12/255f, 0/255.0f, 43/255.0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        batch.setProjectionMatrix(camera.combined);
         rayHandler.render();
+        batch.setProjectionMatrix(camera.combined);
 //        b2dr.render(world, camera.combined);
 //        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
+
         batch.begin();
             player.draw(batch);
         batch.end();
 
 //        Gdx.app.log("GameScreen FPS", (1/delta) + "");
+        hud.stage.draw();
     }
 
     @Override
