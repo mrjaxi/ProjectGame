@@ -112,7 +112,7 @@ public class PlayerAdv extends Sprite {
         /*
         Выставляем параметры для начальной позиции игрока по X и Y
          */
-        bodyDef.position.set(500 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
+        bodyDef.position.set(1000 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body2d = world.createBody(bodyDef);
 

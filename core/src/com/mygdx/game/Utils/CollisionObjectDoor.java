@@ -1,6 +1,7 @@
 package com.mygdx.game.Utils;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
@@ -16,6 +17,7 @@ public class CollisionObjectDoor extends InteractiveTileObjects{
     @Override
     public void onHit() {
         setCategoryFilter(Main.DESTROYED_BIT);
-        getCellDoor().setTile(null);
+        getCellDoor().setTile(getOpenedDoorPart1().getTile());
+        getOverLayer().setTile(getOpenedDoorPart2().getTile());
     }
 }

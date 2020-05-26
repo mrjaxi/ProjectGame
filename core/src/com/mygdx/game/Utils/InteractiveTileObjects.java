@@ -69,4 +69,23 @@ public abstract class InteractiveTileObjects {
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
                 (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
     }
+
+
+
+    public TiledMapTileLayer.Cell getOpenedDoorPart1(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell(133, 11);
+    }
+
+    public TiledMapTileLayer.Cell getOverLayer(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16) + 1);
+    }
+
+    public TiledMapTileLayer.Cell getOpenedDoorPart2(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell(133, 12);
+    }
 }
