@@ -28,8 +28,6 @@ import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
 import com.mygdx.game.Utils.CollisionObjectCoin;
 import com.mygdx.game.Utils.CollisionObjectDoor;
-import com.mygdx.game.Utils.CollisionObjectKey;
-import com.mygdx.game.Utils.TestCollisionObject;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -115,15 +113,13 @@ public class GameScreen implements Screen {
         А это норм пацан, без линий делает, в Utils основной код
          */
 
-//        for(MapObject object : map.getLayers().get(6).getObjects()){
-//            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-//
-//            new CollisionObjectDoor(world, map, rectangle);
-//        }
+        for(MapObject object : map.getLayers().get(6).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            new CollisionObjectDoor(world, map, rectangle);
+        }
 
         for(MapObject object : map.getLayers().get(9).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
             new CollisionObjectCoin(world, map, rectangle);
         }
 
@@ -140,7 +136,7 @@ public class GameScreen implements Screen {
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.02f);
-        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.05f,
+        pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.2f,
                 player.body2d.getPosition().y / Main.PIXELS_PER_METRE - 0.1f);
 
         world.setContactListener(new Listener());
@@ -198,7 +194,7 @@ public class GameScreen implements Screen {
         renderer.render();
         batch.setProjectionMatrix(camera.combined);
         rayHandler.render();
-        b2dr.render(world, camera.combined);
+//        b2dr.render(world, camera.combined);
 //        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
         batch.begin();
             player.draw(batch);
@@ -226,7 +222,6 @@ public class GameScreen implements Screen {
         rayHandler.dispose();
         batch.dispose();
         world.dispose();
-        batch.dispose();
         b2dr.dispose();
     }
 }

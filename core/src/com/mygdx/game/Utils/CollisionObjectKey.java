@@ -7,6 +7,8 @@ import com.mygdx.game.Main;
 
 public class CollisionObjectKey extends InteractiveTileObjects{
 
+    public static int key = 0;
+
     public CollisionObjectKey(World world, TiledMap map, Rectangle bounds) {
         super(world, map, bounds);
         fixture.setUserData(this);
@@ -15,9 +17,7 @@ public class CollisionObjectKey extends InteractiveTileObjects{
 
     @Override
     public void onHit() {
-        System.out.println("DESTROET BIT");
         setCategoryFilter(Main.DESTROYED_BIT);
         getCellKey().setTile(null);
-        //System.out.println("Key sostoyanie = " + main.key1);
     }
 }

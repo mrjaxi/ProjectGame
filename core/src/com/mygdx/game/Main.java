@@ -19,8 +19,8 @@ public class Main extends Game {
 
 	public static final String TITLE = "Escape From Durka";
 	public static final float VERSION = 0.57f;
-	public static final int V_WIDTH = 760;
-	public static final int V_HEIGHT = 360;
+	public static final int V_WIDTH = 460;
+	public static final int V_HEIGHT = 60;
 	public static final float PIXELS_PER_METRE = 100f;
 	public static final short DEFAULT_BIT = 1;
 	public static final short PLAYER_BIT = 8;

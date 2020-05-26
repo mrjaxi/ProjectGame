@@ -54,9 +54,9 @@ public class PlayerAdv extends Sprite {
             frames.add(new TextureRegion(getTexture(),i * 16, 10, 16, 16));
         }
         playerJump = new Animation<>(0.1f, frames);
-        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 16, 16);
+        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 20, 20);
         definePlayer();
-        setBounds(0, 0, 16 / Main.PIXELS_PER_METRE, 16 / Main.PIXELS_PER_METRE);
+        setBounds(0, 0, 20 / Main.PIXELS_PER_METRE, 20 / Main.PIXELS_PER_METRE);
         setRegion(playerStand);
     }
 
@@ -112,7 +112,7 @@ public class PlayerAdv extends Sprite {
         /*
         Выставляем параметры для начальной позиции игрока по X и Y
          */
-        bodyDef.position.set(500 / Main.PIXELS_PER_METRE, 500 / Main.PIXELS_PER_METRE);
+        bodyDef.position.set(500 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body2d = world.createBody(bodyDef);
 
