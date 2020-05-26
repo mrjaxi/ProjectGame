@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
         А это норм пацан, без линий делает, в Utils основной код
          */
 
-        for(MapObject object : map.getLayers().get(6).getObjects()){
+        for(MapObject object : map.getLayers().get(10).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             new CollisionObjectDoor(world, map, rectangle);
         }

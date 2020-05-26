@@ -15,9 +15,7 @@ public class CollisionObjectDoor extends InteractiveTileObjects{
 
     @Override
     public void onHit() {
-        System.out.println("DESTROET BIT");
         setCategoryFilter(Main.DESTROYED_BIT);
         getCellDoor().setTile(null);
-        System.out.println("Door Open");
     }
 }

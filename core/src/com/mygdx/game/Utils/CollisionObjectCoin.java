@@ -19,6 +19,6 @@ public class CollisionObjectCoin extends InteractiveTileObjects{
     public void onHit() {
         setCategoryFilter(Main.DESTROYED_BIT);
         getCellCoin().setTile(null);
-        System.out.println(coin++);
+//        System.out.println(coin++);
     }
 }
