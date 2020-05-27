@@ -51,10 +51,10 @@ public class Main extends Game {
 		mainMenuGame = new MainMenuGame(this);
 		gameScreen = new GameScreen(this);
 
-		this.setScreen(loadingScreen);
+//		this.setScreen(loadingScreen);
 
 //		this.setScreen(new SplashScreen(this));
-//		this.setScreen(new GameScreen(this));
+		this.setScreen(new GameScreen(this));
 	}
 
 	@Override

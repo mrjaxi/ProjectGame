@@ -74,7 +74,7 @@ public abstract class InteractiveTileObjects {
 
     public TiledMapTileLayer.Cell getOpenedDoorPart1(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
-        return layer.getCell(133, 11);
+        return layer.getCell(299, 11);
     }
 
     public TiledMapTileLayer.Cell getOverLayer(){
@@ -86,6 +86,6 @@ public abstract class InteractiveTileObjects {
 
     public TiledMapTileLayer.Cell getOpenedDoorPart2(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
-        return layer.getCell(133, 12);
+        return layer.getCell(299, 12);
     }
 }

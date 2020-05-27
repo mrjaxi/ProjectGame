@@ -21,7 +21,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CollisionContactListener.Listener;
 import com.mygdx.game.Main;
@@ -31,6 +30,7 @@ import com.mygdx.game.UserInterface.Hud;
 import com.mygdx.game.Utils.CollisionObjectCoin;
 import com.mygdx.game.Utils.CollisionObjectDoor;
 import com.mygdx.game.Utils.CollisionObjectKey;
+import com.mygdx.game.Utils.DynamicTileObjects;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -42,8 +42,11 @@ public class GameScreen implements Screen {
     public Main main;
     private SpriteBatch batch;
     private TextureAtlas atlas;
+    private TextureAtlas dynamicAtlas;
     private Viewport viewport;
     public OrthographicCamera camera;
+
+    private DynamicTileObjects objects;
 
     private OrthogonalTiledMapRenderer renderer;
     private Vector3 vector3;
@@ -62,6 +65,7 @@ public class GameScreen implements Screen {
     public GameScreen(Main main){
         this.main = main;
         atlas = new TextureAtlas(Gdx.files.internal("Player/Mario_and_Enemies.pack"));
+        dynamicAtlas = new TextureAtlas(Gdx.files.internal("DynamicTextureObject/dynamic-box.atlas"));
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
 
@@ -85,35 +89,6 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -9.8f), true);
         b2dr = new Box2DDebugRenderer();
 
-        //---------------------------------------------------
-        /*
-        Переменные для инициализации и создания обводки для объектов
-         */
-//        BodyDef bodyDef = new BodyDef();
-//        PolygonShape shape = new PolygonShape();
-//        FixtureDef fDef = new FixtureDef();
-
-        /*
-        Сложная конструкция, которая позволяет идентифицировать все объекты на карте
-        Эта хуйня с линиями зелеными вокруг объектов, поэтому закомментил
-         */
-//        for (MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
-//            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-//
-//            bodyDef.type = BodyDef.BodyType.StaticBody;
-//            bodyDef.position.set((rect.getX() + rect.getWidth() / 2f) / Main.PIXELS_PER_METRE, (rect.getY() + rect.getHeight() / 2f) / Main.PIXELS_PER_METRE);
-//
-//            Body body = world.createBody(bodyDef);
-//            shape.setAsBox(rect.getWidth() / 2 / Main.PIXELS_PER_METRE, rect.getHeight() / 2 / Main.PIXELS_PER_METRE);
-//            fDef.shape = shape;
-//            body.createFixture(fDef);
-//        }
-
-        //-----------------------------------------------------
-
-        /*
-        А это норм пацан, без линий делает, в Utils основной код
-         */
 
         hud = new Hud(batch, main);
 
@@ -129,14 +104,19 @@ public class GameScreen implements Screen {
 
         for(MapObject object : map.getLayers().get(8).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
             new CollisionObjectKey(world, map, rectangle);
         }
-//54y
+
+        for(MapObject object : map.getLayers().get(12).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            objects = new DynamicTileObjects(world, map, rectangle, this);
+        }
+
         TileMapObjects.parseTileMapObject(map, world);
         /*
         Инициализируем игрока на карте
          */
+
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.01f);
@@ -154,6 +134,7 @@ public class GameScreen implements Screen {
     public TextureAtlas getAtlas(){
         return atlas;
     }
+    public TextureAtlas getBox(){ return dynamicAtlas; }
 
     @Override
     public void show() {
@@ -169,6 +150,7 @@ public class GameScreen implements Screen {
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
         rayHandler.update();
         player.update(dt);
+        objects.update(dt);
         camera.update();
         hud.update(dt);
         renderer.setView(camera);
@@ -177,7 +159,6 @@ public class GameScreen implements Screen {
     private void handleInput(float dt) {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING) {
             player.body2d.applyForceToCenter(0, 160f, true);
-//            player.body2d.applyForceToCenter(0, -40f, true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 2)
             player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
@@ -202,11 +183,12 @@ public class GameScreen implements Screen {
         renderer.render();
         rayHandler.render();
         batch.setProjectionMatrix(camera.combined);
-//        b2dr.render(world, camera.combined);
+        b2dr.render(world, camera.combined);
 //        rayHandler.setCombinedMatrix(camera.combined.cpy().scl(Main.PIXELS_PER_METRE));
 
         batch.begin();
             player.draw(batch);
+            objects.draw(batch);
         batch.end();
 
 //        Gdx.app.log("GameScreen FPS", (1/delta) + "");

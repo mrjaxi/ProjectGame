@@ -43,7 +43,7 @@ public class PlayerAdv extends Sprite {
         runningRight = true;
 
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 1; i < 6; i++)
+        for (int i = 1; i < 4; i++)
             frames.add(new TextureRegion(getTexture(), i * 16, 10, 16, 16));
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
@@ -110,7 +110,7 @@ public class PlayerAdv extends Sprite {
         /*
         Выставляем параметры для начальной позиции игрока по X и Y
          */
-        bodyDef.position.set(1000 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
+        bodyDef.position.set(500 / Main.PIXELS_PER_METRE, 200 / Main.PIXELS_PER_METRE);
         bodyDef.type = BodyDef.BodyType.DynamicBody;
         body2d = world.createBody(bodyDef);
 

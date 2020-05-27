@@ -25,9 +25,7 @@ public class TileMapObjects extends InteractiveTileObjects {
     }
 
     @Override
-    public void onHit() {
-
-    }
+    public void onHit() {}
 
     public static void parseTileMapObject(TiledMap map, World world){
         BodyDef bdef = new BodyDef();

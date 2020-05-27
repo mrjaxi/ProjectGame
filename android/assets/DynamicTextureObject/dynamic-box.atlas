@@ -1,0 +1,12 @@
+
+dynamic-box.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+dynamic-box
+  rotate: false
+  xy: 1, 1
+  size: 128, 96
+  orig: 128, 96
+  offset: 0, 0
+  index: -1
