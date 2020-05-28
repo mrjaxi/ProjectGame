@@ -65,7 +65,8 @@ public class GameScreen implements Screen {
     public GameScreen(Main main){
         this.main = main;
         atlas = new TextureAtlas(Gdx.files.internal("Player/Mario_and_Enemies.pack"));
-        dynamicAtlas = new TextureAtlas(Gdx.files.internal("DynamicTextureObject/dynamic-box.atlas"));
+        dynamicAtlas = new TextureAtlas(Gdx.files.internal("DynamicTextureObject/home16.atlas"));
+
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
 

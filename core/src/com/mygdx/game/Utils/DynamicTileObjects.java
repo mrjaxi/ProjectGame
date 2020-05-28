@@ -1,6 +1,5 @@
 package com.mygdx.game.Utils;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -8,7 +7,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -23,17 +21,18 @@ public class DynamicTileObjects extends Sprite {
     protected Rectangle bounds;
     public Body body;
     private TextureRegion region;
+    public float x, y;
 
     public DynamicTileObjects(World world, TiledMap tiledMap, Rectangle bounds, GameScreen screen){
-        super(screen.getBox().findRegion("dynamic-box"));
+        super(screen.getBox().findRegion("home16"));
         this.world = world;
         this.tiledMap = tiledMap;
         this.bounds = bounds;
 
         defineDynamicBox();
 
-        region = new TextureRegion(getTexture(), 32, 32, 32, 32);
-        setBounds(0, 0, 32 / Main.PIXELS_PER_METRE, 32 / Main.PIXELS_PER_METRE);
+        region = new TextureRegion(getTexture(), 49, 115, 16, 16);
+        setBounds(0, 0, 16 / Main.PIXELS_PER_METRE, 16 / Main.PIXELS_PER_METRE);
         setRegion(region);
     }
 
