@@ -13,7 +13,7 @@ import com.mygdx.game.Main;
 import com.mygdx.game.PlayScreen.GameScreen;
 
 public class PlayerAdv extends Sprite {
-//rhe
+
     public enum State {FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     private State previousState;
@@ -21,9 +21,7 @@ public class PlayerAdv extends Sprite {
     public Body body2d;
     private TextureRegion region;
     private TextureRegion playerStand;
-    /*
-    Create object of Animation class
-     */
+
     private Animation<TextureRegion> playerRun;
     private Animation<TextureRegion> playerJump;
 
@@ -31,7 +29,7 @@ public class PlayerAdv extends Sprite {
     private boolean runningRight;
 
     public PlayerAdv(World world, GameScreen screen){
-        super(screen.getAtlas().findRegion("little_mario"));
+        super(screen.getAtlas().findRegion("Ghost"));
         this.world = world;
 
         /*
@@ -42,17 +40,20 @@ public class PlayerAdv extends Sprite {
         stateTimer = 0;
         runningRight = true;
 
+        /*
+        Парсинг фреймов с текстуры
+         */
         Array<TextureRegion> frames = new Array<>();
         for (int i = 1; i < 4; i++)
-            frames.add(new TextureRegion(getTexture(), i * 16, 10, 16, 16));
+            frames.add(new TextureRegion(getTexture(), i * 64, -1, 60, 60));
         playerRun = new Animation<>(0.1f, frames);
         frames.clear();
 
         for (int i = 4; i < 6; i++){
-            frames.add(new TextureRegion(getTexture(),i * 16, 10, 16, 16));
+            frames.add(new TextureRegion(getTexture(),i * 64, -1, 60, 60));
         }
         playerJump = new Animation<>(0.1f, frames);
-        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 10, 20, 20);
+        TextureRegion playerStand = new TextureRegion(getTexture(), 1, 8, 60, 60);
         definePlayer();
         setBounds(0, 0, 20 / Main.PIXELS_PER_METRE, 20 / Main.PIXELS_PER_METRE);
         setRegion(playerStand);
@@ -68,6 +69,9 @@ public class PlayerAdv extends Sprite {
 
         switch (currentState){
             case FALLING:
+                /*
+                По прыжку будет получать фреймы и перерисовывать их
+                 */
             case JUMPING:
                 region = playerJump.getKeyFrame(stateTimer);
                 break;
@@ -79,6 +83,9 @@ public class PlayerAdv extends Sprite {
             default:
                 region = playerStand;
         }
+        /*
+        Условие для поворота персоонажа
+         */
         if ((body2d.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()){
             region.flip(true, false);
             runningRight = false;
@@ -116,7 +123,7 @@ public class PlayerAdv extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(7f / Main.PIXELS_PER_METRE, 7f / Main.PIXELS_PER_METRE);
+        shape.setAsBox(7.7f / Main.PIXELS_PER_METRE, 7.6f / Main.PIXELS_PER_METRE);
 
         fixtureDef.filter.categoryBits = Main.PLAYER_BIT;
         fixtureDef.filter.maskBits = Main.DEFAULT_BIT | Main.COINS;

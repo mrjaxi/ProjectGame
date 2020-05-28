@@ -50,6 +50,9 @@ public abstract class InteractiveTileObjects {
         fixture.setFilterData(filter);
     }
 
+    /*
+    Парсинг объектных слоев с карты
+     */
     public TiledMapTileLayer.Cell getCellDoor(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
@@ -67,8 +70,6 @@ public abstract class InteractiveTileObjects {
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
                 (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
     }
-
-
 
     public TiledMapTileLayer.Cell getOpenedDoorPart1(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
