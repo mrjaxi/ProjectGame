@@ -1,7 +1,6 @@
 package com.mygdx.game.Utils;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
@@ -13,32 +12,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.Main;
 import com.mygdx.game.PlayScreen.GameScreen;
 
-public class DynamicTileObjects extends Sprite {
+public abstract class DynamicTileObjects extends Sprite {
 
     public World world;
-    protected TiledMapTile tile;
-    private TiledMap tiledMap;
-    protected Rectangle bounds;
+    public TiledMapTile tile;
+    public TiledMap tiledMap;
+    public Rectangle bounds;
+    public GameScreen screen;
     public Body body;
-    private TextureRegion region;
-    public float x, y;
 
     public DynamicTileObjects(World world, TiledMap tiledMap, Rectangle bounds, GameScreen screen){
-        super(screen.getBox().findRegion("home16"));
         this.world = world;
         this.tiledMap = tiledMap;
         this.bounds = bounds;
-
-        defineDynamicBox();
-
-        region = new TextureRegion(getTexture(), 49, 115, 16, 16);
-        setBounds(0, 0, 16 / Main.PIXELS_PER_METRE, 16 / Main.PIXELS_PER_METRE);
-        setRegion(region);
+        this.screen = screen;
     }
 
-    public void update(float delta){
-        setPosition(body.getPosition().x - getWidth() / 2,body.getPosition().y - getHeight() / 2);
-    }
+    public abstract void update(float delta);
 
     public void defineDynamicBox(){
         BodyDef bodyDef = new BodyDef();

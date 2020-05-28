@@ -30,7 +30,7 @@ import com.mygdx.game.UserInterface.Hud;
 import com.mygdx.game.Utils.CollisionObjectCoin;
 import com.mygdx.game.Utils.CollisionObjectDoor;
 import com.mygdx.game.Utils.CollisionObjectKey;
-import com.mygdx.game.Utils.DynamicTileObjects;
+import com.mygdx.game.Utils.DynamicBody;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     private Viewport viewport;
     public OrthographicCamera camera;
 
-    private DynamicTileObjects objects;
+    private DynamicBody objects;
 
     private OrthogonalTiledMapRenderer renderer;
     private Vector3 vector3;
@@ -108,10 +108,11 @@ public class GameScreen implements Screen {
             new CollisionObjectKey(world, map, rectangle);
         }
 
-        for(MapObject object : map.getLayers().get(12).getObjects()){
+        for(MapObject object : map.getLayers().get(12).getObjects()) {
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            objects = new DynamicTileObjects(world, map, rectangle, this);
+            objects = new DynamicBody(world, map, rectangle, this);
         }
+
 
         TileMapObjects.parseTileMapObject(map, world);
         /*

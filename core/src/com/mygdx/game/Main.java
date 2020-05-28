@@ -17,7 +17,7 @@ import com.mygdx.game.PlayScreen.SplashScreen;
 
 public class Main extends Game {
 
-	public static final String TITLE = "Escape From Durka";
+	public static final String TITLE = "The Durka";
 	public static final float VERSION = 0.57f;
 	public static final int V_WIDTH = 460;
 	public static final int V_HEIGHT = 360;
