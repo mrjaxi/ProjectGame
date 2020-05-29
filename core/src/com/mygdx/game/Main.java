@@ -39,12 +39,17 @@ public class Main extends Game {
 	public MainMenuGame mainMenuGame;
 	public GameScreen gameScreen;
 
+	public static AssetManager manager;
+
 	@Override
 	public void create () {
 		assets = new AssetManager();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, L_WIDTH, L_HEIGHT);
 		batch = new SpriteBatch();
+
+		//manager = new AssetManager();
+		//manager.load("Sounds/");
 
 		fonts();
 

@@ -2,6 +2,7 @@ package com.mygdx.game.PlayScreen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Interpolation;
@@ -34,8 +35,10 @@ public class SplashScreen implements Screen {
 
     @Override
     public void show() {
+
         System.out.println("SPLASH");
         Gdx.input.setInputProcessor(stage);
+
 
         Runnable transitionRunnable = new Runnable() {
             @Override
