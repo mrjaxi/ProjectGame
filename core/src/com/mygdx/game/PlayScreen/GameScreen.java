@@ -83,7 +83,7 @@ public class GameScreen implements Screen {
         vector3 = new Vector3();
 
         /*
-        Подгрузка карт и их последующий рендер
+        Подгрузка карт и их последующий рендерр
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
         map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/16bit.tmx")));
