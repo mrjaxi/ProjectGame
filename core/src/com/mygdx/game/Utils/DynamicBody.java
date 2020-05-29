@@ -18,18 +18,12 @@ public class DynamicBody extends DynamicTileObjects {
 
         defineDynamicBox();
 
-        /*
-        Крч, здесь просто берется часть из текстуры атласом
-         */
         region = new TextureRegion(screen.getBox().findRegion("home16").getTexture(), 49, 115, 16, 16);
         setBounds(0, 0, 16 / Main.PIXELS_PER_METRE, 16 / Main.PIXELS_PER_METRE);
         setRegion(region);
     }
 
     public void update(float delta){
-        /*
-        Установление позиции объекта как на карте
-         */
         setPosition(body.getPosition().x - getWidth() / 2,body.getPosition().y - getHeight() / 2);
     }
 }

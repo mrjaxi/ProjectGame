@@ -50,16 +50,7 @@ public abstract class InteractiveTileObjects {
         fixture.setFilterData(filter);
     }
 
-    /*
-    Парсинг объектных слоев с карты
-     */
     public TiledMapTileLayer.Cell getCellDoor(){
-        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
-        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
-                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
-    }
-
-    public TiledMapTileLayer.Cell getCellCoin(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
                 (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
@@ -71,12 +62,50 @@ public abstract class InteractiveTileObjects {
                 (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
     }
 
-    public TiledMapTileLayer.Cell getOpenedDoorPart1(){
+    public TiledMapTileLayer.Cell getCellCoin(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
-        return layer.getCell(299, 11);
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
     }
 
-    public TiledMapTileLayer.Cell getOverLayer(){
+    public TiledMapTileLayer.Cell getCellUnderGround(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
+    }
+
+    public TiledMapTileLayer.Cell getCellChest(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
+    }
+
+
+
+    public TiledMapTileLayer.Cell getOpenedChestPart1(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell(297, 61);
+    }
+
+    public TiledMapTileLayer.Cell getOpenedChestPart2(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell(298, 61);
+    }
+
+    public TiledMapTileLayer.Cell getOverLayerChest(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+
+        return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16) + 1 ,
+                (int)(body.getPosition().y * Main.PIXELS_PER_METRE / 16));
+    }
+
+
+    public TiledMapTileLayer.Cell getOpenedDoorPart1(){
+        TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
+        return layer.getCell(299, 61);
+    }
+
+    public TiledMapTileLayer.Cell getOverLayerDoor(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
 
         return layer.getCell((int)(body.getPosition().x * Main.PIXELS_PER_METRE / 16),
@@ -85,6 +114,6 @@ public abstract class InteractiveTileObjects {
 
     public TiledMapTileLayer.Cell getOpenedDoorPart2(){
         TiledMapTileLayer layer = (TiledMapTileLayer) tiledMap.getLayers().get(7);
-        return layer.getCell(299, 12);
+        return layer.getCell(299, 62);
     }
 }

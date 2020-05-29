@@ -19,8 +19,9 @@ public class CollisionObjectDoor extends InteractiveTileObjects{
         if(Hud.intKey > 0){
             setCategoryFilter(Main.DESTROYED_BIT);
             getCellDoor().setTile(getOpenedDoorPart1().getTile());
-            getOverLayer().setTile(getOpenedDoorPart2().getTile());
+            getOverLayerDoor().setTile(getOpenedDoorPart2().getTile());
             Hud.warning = "Door opened";
+            Hud.intKey--;
         }
         else Hud.warning = "NeedKey";
     }

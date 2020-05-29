@@ -14,9 +14,6 @@ import com.mygdx.game.PlayScreen.GameScreen;
 
 public abstract class DynamicTileObjects extends Sprite {
 
-    /*
-    Публичные переменные для работы с ними в дочерних классах
-     */
     public World world;
     public TiledMapTile tile;
     public TiledMap tiledMap;
@@ -33,9 +30,6 @@ public abstract class DynamicTileObjects extends Sprite {
 
     public abstract void update(float delta);
 
-    /*
-    Метод для создания динамических объектов
-     */
     public void defineDynamicBox(){
         BodyDef bodyDef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();

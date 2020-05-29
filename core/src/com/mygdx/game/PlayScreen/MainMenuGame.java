@@ -34,7 +34,7 @@ public class MainMenuGame implements Screen {
 
     public MainMenuGame(final Main main) {
         this.main = main;
-        this.stage = new Stage(new StretchViewport(Main.V_WIDTH, Main.V_HEIGHT, main.camera));
+        this.stage = new Stage(new StretchViewport(Main.L_WIDTH, Main.L_HEIGHT, main.camera));
         this.shapeRenderer = new ShapeRenderer();
     }
 
@@ -46,9 +46,9 @@ public class MainMenuGame implements Screen {
         stage.clear();
 
         this.skin = new Skin();
-        this.skin.addRegions(main.assets.get("User interface/skin.atlas", TextureAtlas.class));
-        this.skin.add("default-font", main.font24);
-        this.skin.load(Gdx.files.internal("User interface/skin.json"));
+        this.skin.addRegions(main.assets.get("User interface/plain-james-ui.atlas", TextureAtlas.class));
+        this.skin.add("default", main.font24);
+        this.skin.load(Gdx.files.internal("User interface/plain-james-ui.json"));
 
         Buttons();
     }
@@ -94,9 +94,9 @@ public class MainMenuGame implements Screen {
     }
 
     private void Buttons() {
-        buttonPlay = new TextButton("Play", skin, "default");
-        buttonPlay.setPosition(150, 210);
-        buttonPlay.setSize(140, 50);
+        buttonPlay = new TextButton("Play", skin, "toggle");
+        buttonPlay.setPosition(145, 210);
+        buttonPlay.setSize(165, 60);
         buttonPlay.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonPlay.addListener(new ClickListener() {
             @Override
@@ -105,9 +105,9 @@ public class MainMenuGame implements Screen {
             }
         });
 
-        buttonExit = new TextButton("Exit", skin, "default");
-        buttonExit.setPosition(150, 130);
-        buttonExit.setSize(140, 50);
+        buttonExit = new TextButton("Exit", skin, "toggle");
+        buttonExit.setPosition(145, 120);
+        buttonExit.setSize(165, 60);
         buttonExit.addAction(sequence(alpha(0), parallel(fadeIn(.5f), moveBy(0, -20, .5f, Interpolation.pow5Out))));
         buttonExit.addListener(new ClickListener() {
             @Override

@@ -27,10 +27,13 @@ import com.mygdx.game.Main;
 import com.mygdx.game.MyInputProcessor.InputProcessorOne;
 import com.mygdx.game.Player.PlayerAdv;
 import com.mygdx.game.UserInterface.Hud;
+import com.mygdx.game.Utils.CollisionObjectChest;
 import com.mygdx.game.Utils.CollisionObjectCoin;
 import com.mygdx.game.Utils.CollisionObjectDoor;
 import com.mygdx.game.Utils.CollisionObjectKey;
+import com.mygdx.game.Utils.CollisionObjectUnderGroung;
 import com.mygdx.game.Utils.DynamicBody;
+import com.mygdx.game.Utils.DynamicTileObjects;
 import com.mygdx.game.Utils.TileMapObjects;
 
 import box2dLight.PointLight;
@@ -64,29 +67,21 @@ public class GameScreen implements Screen {
 
     public GameScreen(Main main){
         this.main = main;
-        /*
-        Подгрузка упакованных регионов текстур .pack & .atlas
-         */
         atlas = new TextureAtlas(Gdx.files.internal("Player/ghost.atlas"));
         dynamicAtlas = new TextureAtlas(Gdx.files.internal("DynamicTextureObject/home16.atlas"));
 
-        /*
-        Создание бача для его дальнейшей отрисовки, ортогональной камеры и вьюпорта
-         */
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
+
         viewport = new ExtendViewport(Main.V_WIDTH / Main.PIXELS_PER_METRE, Main.V_HEIGHT / Main.PIXELS_PER_METRE, camera);
 
-        /*
-        Создание 3d vector для точного считывания касания по экрану
-         */
         vector3 = new Vector3();
 
         /*
-        Подгрузка карт и их последующий рендерр
+        Подгрузка карт
          */
         TmxMapLoader tmxMapLoader = new TmxMapLoader();
-        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/16bit.tmx")));
+        map = tmxMapLoader.load(String.valueOf(Gdx.files.internal("Maps/OldMapForTest/Roma/16bit.tmx")));  //   Maps/OldMapForTest/Roma/16bit.tmx      Maps/TmxMap/Map.tmx
         renderer = new OrthogonalTiledMapRenderer(map, 1 / Main.PIXELS_PER_METRE);
 
         camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -98,15 +93,9 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0, -9.8f), true);
         b2dr = new Box2DDebugRenderer();
 
-        /*
-        Худ, для создание интерфейса поверх вьюпорта
-         */
+
         hud = new Hud(batch, main);
 
-
-        /*
-        Циклы для парсинга и дальнейшего редактирования слоев с карты
-         */
         for(MapObject object : map.getLayers().get(10).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             new CollisionObjectDoor(world, map, rectangle);
@@ -117,25 +106,31 @@ public class GameScreen implements Screen {
             new CollisionObjectCoin(world, map, rectangle);
         }
 
+        for(MapObject object : map.getLayers().get(14).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            new CollisionObjectChest(world, map, rectangle);
+        }
+
         for(MapObject object : map.getLayers().get(8).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             new CollisionObjectKey(world, map, rectangle);
         }
 
-        for(MapObject object : map.getLayers().get(12).getObjects()) {
+        for(MapObject object : map.getLayers().get(12).getObjects()){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            new CollisionObjectUnderGroung(world, map, rectangle);
+        }
+
+        for(MapObject object : map.getLayers().get(13).getObjects()){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             objects = new DynamicBody(world, map, rectangle, this);
         }
 
-        /*
-        Парсинг всех видов объектов
-         */
         TileMapObjects.parseTileMapObject(map, world);
-
-
         /*
-        Инициализируем игрока и свет на карте
+        Инициализируем игрока на карте
          */
+
         player = new PlayerAdv(world, this);
         rayHandler = new RayHandler(world);
         rayHandler.setAmbientLight(.01f);
@@ -143,42 +138,28 @@ public class GameScreen implements Screen {
         pointLight = new PointLight(rayHandler, 100, Color.BLACK, 150 / Main.PIXELS_PER_METRE, player.body2d.getPosition().x / Main.PIXELS_PER_METRE - 0.2f,
                 player.body2d.getPosition().y / Main.PIXELS_PER_METRE - 0.1f);
 
-        /*
-        Ставим слушателя на мир
-         */
         world.setContactListener(new Listener());
-
-        /*
-        Создаем InputProcessor для непрерывного считывания касаний по экрану
-         */
         InputProcessor inputOne = new InputProcessorOne(player);
+
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(inputOne);
     }
 
-    /*
-    Геттеры для атласов
-     */
-    public TextureAtlas getAtlas(){ return atlas; }
+    public TextureAtlas getAtlas(){
+        return atlas;
+    }
     public TextureAtlas getBox(){ return dynamicAtlas; }
 
     @Override
     public void show() {
-        /*
-        Инициализация процессора
-         */
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
+
+
     private void update(float dt){
-        /*
-        Обновление
-         */
         handleInput(dt);
         world.step(1 / 60f, 6, 2);
-        /*
-        Эффект вязкой камеры
-         */
         camera.position.x = camera.position.x + (player.body2d.getPosition().x * 1f - camera.position.x + 0.2f) * .3f;
         camera.position.y = camera.position.y + (player.body2d.getPosition().y * 1f - camera.position.y) * .5f;
         rayHandler.update();
@@ -190,26 +171,20 @@ public class GameScreen implements Screen {
     }
 
     private void handleInput(float dt) {
-        /*
-        Клавиатура
-         */
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING) {
-            player.body2d.applyForceToCenter(0, 160f, true);
+            player.body2d.applyForceToCenter(0, 166f, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 0.9f)
-            player.body2d.applyLinearImpulse(new Vector2(0.3f, 0), player.body2d.getWorldCenter(), true);
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -0.9f)
-            player.body2d.applyLinearImpulse(new Vector2(-0.3f, 0), player.body2d.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 0.9)
+            player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -0.9)
+            player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true);
 
-        /*
-        Сенсоры
-         */
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f) > vector3.x && (Gdx.graphics.getHeight() / 0.9f < vector3.y) && player.body2d.getLinearVelocity().x <= 2) {
-                player.body2d.applyLinearImpulse(new Vector2(0.3f, 0), player.body2d.getWorldCenter(), true); }
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 0.9) {
+                player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
             if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x >= -0.9) {
-                player.body2d.applyLinearImpulse(new Vector2(-0.3f, 0), player.body2d.getWorldCenter(), true); }
+                player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }
 
@@ -230,7 +205,7 @@ public class GameScreen implements Screen {
             objects.draw(batch);
         batch.end();
 
-//        Gdx.app.log("GameScreen FPS", (1/delta) + "");
+// .       Gdx.app.log("GameScreen FPS", (1/delta) + "");
         hud.stage.draw();
     }
 

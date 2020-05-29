@@ -19,8 +19,10 @@ public class Main extends Game {
 
 	public static final String TITLE = "The Durka";
 	public static final float VERSION = 0.57f;
-	public static final int V_WIDTH = 460;
-	public static final int V_HEIGHT = 360;
+	public static final int V_WIDTH = 320;
+	public static final int V_HEIGHT = 120;
+	public static final int L_WIDTH = 460;
+	public static final int L_HEIGHT = 360;
 	public static final float PIXELS_PER_METRE = 100f;
 	public static final short DEFAULT_BIT = 1;
 	public static final short PLAYER_BIT = 8;
@@ -41,7 +43,7 @@ public class Main extends Game {
 	public void create () {
 		assets = new AssetManager();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, V_WIDTH, V_HEIGHT);
+		camera.setToOrtho(false, L_WIDTH, L_HEIGHT);
 		batch = new SpriteBatch();
 
 		fonts();
@@ -51,10 +53,11 @@ public class Main extends Game {
 		mainMenuGame = new MainMenuGame(this);
 		gameScreen = new GameScreen(this);
 
-//		this.setScreen(loadingScreen);
+		this.setScreen(loadingScreen);
+//		this.setScreen(mainMenuGame);
 
 //		this.setScreen(new SplashScreen(this));
-		this.setScreen(new GameScreen(this));
+//		this.setScreen(new GameScreen(this));
 	}
 
 	@Override
@@ -80,7 +83,7 @@ public class Main extends Game {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Fonts/Piedra.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-		params.size = 24;
+		params.size = 20;
 		params.color = Color.BLACK;
 		font24 = generator.generateFont(params);
 	}

@@ -29,7 +29,7 @@ public class SplashScreen implements Screen {
 
     public SplashScreen(final Main main) {
         this.main = main;
-        this.stage = new Stage(new FitViewport(Main.V_WIDTH, Main.V_HEIGHT, main.camera));
+        this.stage = new Stage(new FitViewport(Main.L_WIDTH, Main.L_HEIGHT, main.camera));
     }
 
     @Override
@@ -50,8 +50,8 @@ public class SplashScreen implements Screen {
         splashImg.setPosition(stage.getWidth() / 2 - 512, stage.getHeight() + 512);
         splashImg.addAction(sequence(alpha(0), scaleTo(.01f, .01f),
                 parallel(fadeIn(2f, Interpolation.pow2),
-                        scaleTo(.3f, .3f, 2.5f, Interpolation.pow5),
-                        moveTo(stage.getWidth() / 2 - 74, stage.getHeight() / 2 - 74, 2f, Interpolation.swing)),
+                        scaleTo(.45f, .45f, 2.5f, Interpolation.pow5),
+                        moveTo(stage.getWidth() / 2 - 125, stage.getHeight() / 2 - 125, 2f, Interpolation.swing)),
                 delay(1.5f), fadeOut(1.25f), run(transitionRunnable)));
 
         stage.addActor(splashImg);

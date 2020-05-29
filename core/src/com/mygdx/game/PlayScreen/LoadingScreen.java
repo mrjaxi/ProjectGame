@@ -24,7 +24,7 @@ public class LoadingScreen implements Screen {
 
     private void queueAssets() {
         main.assets.load("img/loading.png", Texture.class);
-        main.assets.load("User interface/skin.atlas", TextureAtlas.class);
+        main.assets.load("User interface/plain-james-ui.atlas", TextureAtlas.class);
     }
 
 
@@ -38,7 +38,7 @@ public class LoadingScreen implements Screen {
 
     private void update(float delta) {
         progress = MathUtils.lerp(progress, main.assets.getProgress(), 0.059f);
-        if (main.assets.update() && progress >= main.assets.getProgress() - .000003f) {
+        if (main.assets.update() && progress >= main.assets.getProgress() - .00003f) {
             main.setScreen(main.splashScreen);
         }
     }
@@ -53,10 +53,10 @@ public class LoadingScreen implements Screen {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, main.camera.viewportWidth - 64, 16);
+        shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, main.camera.viewportWidth - 64, 7);
 
         shapeRenderer.setColor(Color.CORAL);
-        shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, progress * (main.camera.viewportWidth - 64), 16);
+        shapeRenderer.rect(32, main.camera.viewportHeight / 2 - 8, progress * (main.camera.viewportWidth - 64), 7);
         shapeRenderer.end();
     }
 
