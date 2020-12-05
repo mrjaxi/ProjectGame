@@ -19,6 +19,6 @@ public class CollisionObjectChest extends InteractiveTileObjects{
         setCategoryFilter(Main.DESTROYED_BIT);
         getOverLayerChest().setTile(null);
         getCellChest().setTile(null);
-        Hud.intCoin += 25;
+        Hud.intCoin += 250;
     }
 }

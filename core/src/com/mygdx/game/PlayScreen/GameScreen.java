@@ -174,16 +174,16 @@ public class GameScreen implements Screen {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) && player.currentState != PlayerAdv.State.JUMPING) {
             player.body2d.applyForceToCenter(0, 166f, true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 0.9)
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body2d.getLinearVelocity().x <= 0.7)
             player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true);
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -0.9)
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player.body2d.getLinearVelocity().x >= -0.7)
             player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true);
 
         if (Gdx.input.isTouched()){
             vector3.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x <= 0.9) {
+            if ((Gdx.graphics.getWidth() / 4f) < vector3.x && (Gdx.graphics.getWidth() / 2f > vector3.x) && player.body2d.getLinearVelocity().x <= 0.7) {
                 player.body2d.applyLinearImpulse(new Vector2(0.15f, 0), player.body2d.getWorldCenter(), true); }
-            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && (Gdx.graphics.getHeight() / 2f < vector3.y) && player.body2d.getLinearVelocity().x >= -0.9) {
+            if ((Gdx.graphics.getWidth() / 4f) > vector3.x && player.body2d.getLinearVelocity().x >= -0.7) {
                 player.body2d.applyLinearImpulse(new Vector2(-0.15f, 0), player.body2d.getWorldCenter(), true); }
         }
     }

@@ -31,7 +31,7 @@ public class PlayerAdv extends Sprite {
     private boolean runningRight;
 
     public PlayerAdv(World world, GameScreen screen){
-        super(screen.getAtlas().findRegion("Ghost"));
+        super(screen.getAtlas().findRegion("ghost"));
         this.world = world;
 
         /*
@@ -116,7 +116,7 @@ public class PlayerAdv extends Sprite {
 
         FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(6.7f / Main.PIXELS_PER_METRE, 6.5f / Main.PIXELS_PER_METRE);
+        shape.setAsBox(6f / Main.PIXELS_PER_METRE, 6f / Main.PIXELS_PER_METRE);
 
         fixtureDef.filter.categoryBits = Main.PLAYER_BIT;
         fixtureDef.filter.maskBits = Main.DEFAULT_BIT | Main.COINS;

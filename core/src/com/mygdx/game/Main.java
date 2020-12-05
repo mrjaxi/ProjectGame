@@ -19,8 +19,8 @@ public class Main extends Game {
 
 	public static final String TITLE = "The Durka";
 	public static final float VERSION = 0.57f;
-	public static final int V_WIDTH = 320;
-	public static final int V_HEIGHT = 120;
+	public static final int V_WIDTH = 300;
+	public static final int V_HEIGHT = 230;
 	public static final int L_WIDTH = 460;
 	public static final int L_HEIGHT = 360;
 	public static final float PIXELS_PER_METRE = 100f;
